@@ -16,8 +16,11 @@
 
 package dbtucker.connect.file;
 
-import java.util.List;
 import java.util.Map;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
@@ -48,13 +51,14 @@ public class SchemaedFileSinkConnector extends SinkConnector {
 
   @Override
   public List<Map<String, String>> taskConfigs(int maxTasks) {
-    //TODO: Define the individual task configurations that will be executed.
-
-    /**
-     * This is used to schedule the number of tasks that will be running. This should not exceed maxTasks.
-     */
-
-    throw new UnsupportedOperationException("This has not been implemented.");
+     ArrayList<Map<String,String>> configs = new ArrayList<>();
+        for (File file : filelist) {
+            Map<String,String> config = new HashMap<>();
+            config.put("topic", topic);
+            config.put("file",file.toString());
+            configs.add(config);
+        }
+       return configs;
   }
 
   @Override
